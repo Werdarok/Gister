@@ -1,24 +1,34 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Executor from "./Components/executor"
+import GithubWrapper from "./GitHubWrapper"
 
+function DeleteGist(formValue){
+  formValue.preventDefault()
+  let gister = new GithubWrapper()
+  gister.deleteGist(formValue.target[0].value)
+}
+function CreateGist(formValue) {
+  formValue.preventDefault()
+  let gister = new GithubWrapper()
+  let gistPayload = {
+    "description":  formValue.target[0].value,
+    "public": true,
+    "files": {
+      "JustFile": {
+        "content": "Poprosimy o 5"
+          },
+      }
+  } 
+  gister.createGist(gistPayload)
+ 
+}
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Executor executeFunction={CreateGist}/>
+      <Executor executeFunction={DeleteGist}/>
     </div>
   );
 }
